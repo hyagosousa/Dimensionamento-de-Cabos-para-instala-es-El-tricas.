@@ -2,8 +2,8 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motorhome Expert | Simulador Elétrico Profissional</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Simulador Elétrico Profissional</title>
     <style>
         :root {
             --bg-dark: #0f172a;
@@ -17,34 +17,40 @@
             --success: #38bdf8;
         }
 
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-main);
             margin: 0;
-            padding: 20px;
+            padding: 12px;
         }
 
         .container {
+            width: 100%;
             max-width: 1050px;
             margin: 0 auto;
             background: var(--card-bg);
-            padding: 35px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
             border: 1px solid var(--border);
         }
 
         .header {
             text-align: center;
             border-bottom: 2px solid var(--border);
-            padding-bottom: 20px;
-            margin-bottom: 30px;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         .header h1 {
             margin: 0;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: var(--text-main);
             letter-spacing: -0.5px;
         }
@@ -55,21 +61,22 @@
 
         .header p {
             color: var(--text-muted);
-            margin-top: 8px;
-            font-size: 0.95rem;
+            margin-top: 6px;
+            font-size: 0.85rem;
         }
 
         .form-grid {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr auto;
-            gap: 12px;
-            margin-bottom: 25px;
-            align-items: end;
+            grid-template-columns: 1fr;
+            gap: 14px;
+            margin-bottom: 20px;
         }
 
-        @media(max-width: 850px) {
+        @media(min-width: 768px) {
             .form-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 2fr 1fr 1fr 1fr auto;
+                align-items: end;
+                gap: 12px;
             }
         }
 
@@ -85,13 +92,12 @@
 
         input, select {
             width: 100%;
-            padding: 11px 14px;
+            padding: 14px;
             background-color: #0b0f19;
             border: 1px solid var(--border);
             color: var(--text-main);
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 0.95rem;
+            border-radius: 10px;
+            font-size: 1rem;
             outline: none;
             transition: border-color 0.2s;
         }
@@ -104,16 +110,13 @@
             background-color: var(--accent);
             color: #0f172a;
             border: none;
-            padding: 11px 20px;
-            border-radius: 8px;
+            padding: 14px 20px;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 1rem;
+            width: 100%;
             transition: background 0.2s, transform 0.1s;
-        }
-
-        button:hover {
-            background-color: var(--accent-hover);
         }
 
         button:active {
@@ -124,18 +127,15 @@
             background-color: rgba(239, 68, 68, 0.15);
             color: var(--danger);
             border: 1px solid rgba(239, 68, 68, 0.3);
-            padding: 8px 12px;
+            padding: 10px 14px;
             font-size: 0.85rem;
-        }
-
-        .btn-remover:hover {
-            background-color: var(--danger);
-            color: white;
+            width: auto;
+            border-radius: 8px;
         }
 
         .acoes-topo {
             display: flex;
-            justify-content: flex-end;
+            justify-content: stretch;
             margin-bottom: 15px;
         }
 
@@ -143,39 +143,37 @@
             background-color: #3b82f6;
             color: white;
             display: flex;
+            justify-content: center;
             align-items: center;
             gap: 8px;
-        }
-
-        .btn-exportar:hover {
-            background-color: #2563eb;
         }
 
         .table-responsive {
             width: 100%;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
+            border-radius: 10px;
+            border: 1px solid var(--border);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
             white-space: nowrap;
         }
 
         th, td {
-            border: 1px solid var(--border);
-            padding: 14px;
+            border-bottom: 1px solid var(--border);
+            padding: 12px 10px;
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         th {
             background-color: #111827;
             color: var(--text-muted);
             text-transform: uppercase;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             letter-spacing: 0.8px;
         }
 
@@ -185,22 +183,28 @@
 
         .resumo-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-top: 35px;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        @media(min-width: 550px) {
+            .resumo-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         .card-resumo {
             background: #111827;
-            padding: 20px;
+            padding: 16px;
             border-radius: 10px;
             border: 1px solid var(--border);
             border-left: 4px solid var(--accent);
         }
 
         .card-resumo h3 {
-            margin: 0 0 8px 0;
-            font-size: 0.8rem;
+            margin: 0 0 6px 0;
+            font-size: 0.75rem;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -208,58 +212,35 @@
 
         .card-resumo p {
             margin: 0;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: var(--text-main);
         }
 
         .footer-suporte {
             text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
+            margin-top: 25px;
+            padding-top: 16px;
             border-top: 1px solid var(--border);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
         .footer-suporte a {
             color: var(--accent);
             text-decoration: none;
             font-weight: bold;
-            margin: 0 5px;
+            margin: 0 4px;
         }
 
         @media print {
-            body {
-                background: white;
-                color: black;
-                padding: 0;
-            }
-            .container {
-                box-shadow: none;
-                border: none;
-                background: white;
-                width: 100%;
-                max-width: 100%;
-                padding: 0;
-            }
-            .form-grid, .acoes-topo, .btn-remover, th:last-child, td:last-child {
-                display: none !important;
-            }
+            body { background: white; color: black; padding: 0; }
+            .container { box-shadow: none; border: none; background: white; width: 100%; max-width: 100%; padding: 0; }
+            .form-grid, .acoes-topo, .btn-remover, th:last-child, td:last-child { display: none !important; }
             .header h1 { color: #000; }
-            .header h1 span { color: #059669; }
-            .card-resumo {
-                background: #f8fafc;
-                border: 1px solid #cbd5e1;
-                border-left: 4px solid #059669;
-            }
-            .card-resumo h3 { color: #475569; }
-            .card-resumo p { color: #0f172a; }
-            th { background-color: #e2e8f0; color: #334155; }
-            th, td { border-color: #cbd5e1; color: #1e293b; }
+            .card-resumo { background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #059669; }
             .footer-suporte { color: #475569; border-top: 1px solid #cbd5e1; }
-            .footer-suporte a { color: #059669; }
         }
     </style>
 </head>
@@ -278,7 +259,7 @@
         </div>
         <div>
             <label>Potência (W)</label>
-            <input type="number" id="potenciaEq" placeholder="Ex: 60">
+            <input type="number" id="potenciaEq" inputmode="numeric" placeholder="Ex: 60">
         </div>
         <div>
             <label>Tensão</label>
@@ -291,7 +272,7 @@
         </div>
         <div>
             <label>Distância Ida (m)</label>
-            <input type="number" id="distanciaEq" placeholder="Ex: 3" value="3">
+            <input type="number" id="distanciaEq" inputmode="numeric" placeholder="Ex: 3" value="3">
         </div>
         <div>
             <label>&nbsp;</label>
@@ -343,14 +324,12 @@
 
 <script>
     let equipamentos = [];
-
-    // Disjuntores comerciais padrão expandidos
     const disjuntoresPadrao = [2, 4, 6, 10, 16, 20, 25, 32, 40, 50, 63, 70, 80, 100, 125, 150];
 
     function calcularProjeto(corrente, distancia, tensao) {
         let fator = (tensao == 12 || tensao == 24) ? 2 : 1;
         let rho = 0.0172;
-        let deltaVMax = tensao * 0.03; // Queda máxima admissível de 3%
+        let deltaVMax = tensao * 0.03; 
         let secaoMinima = (fator * rho * distancia * corrente) / deltaVMax;
 
         const tabelaCabos = [
@@ -376,7 +355,6 @@
             }
         }
 
-        // Lógica NBR 5410 aprimorada para o disjuntor (Ib <= In <= Iz)
         let disjuntorEscolhido = null;
         for (let d of disjuntoresPadrao) {
             if (d >= corrente && d <= capacidadeCaboIz) {
