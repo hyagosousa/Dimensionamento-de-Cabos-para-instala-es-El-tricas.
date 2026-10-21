@@ -336,16 +336,16 @@
 
     <div class="footer-suporte">
         Dúvidas ou suporte técnico?<br>
-        WhatsApp: <a href="https://wa.me/5534997786637" target="_blank">(34) 99778-6637</a> | 
-        Instagram: <a href="https://instagram.com/hyagueera" target="_blank">@hyagueera</a>
+        WhatsApp: [(34) 99778-6637](https://wa.me/5534997786637) | 
+        Instagram: [@hyagueera](https://instagram.com/hyagueera)
     </div>
 </div>
 
 <script>
     let equipamentos = [];
 
-    // Disjuntores comerciais padrão
-    const disjuntoresPadrao = [2, 4, 6, 10, 16, 20, 25, 32, 40, 50, 63, 70, 80, 100];
+    // Disjuntores comerciais padrão expandidos
+    const disjuntoresPadrao = [2, 4, 6, 10, 16, 20, 25, 32, 40, 50, 63, 70, 80, 100, 125, 150];
 
     function calcularProjeto(corrente, distancia, tensao) {
         let fator = (tensao == 12 || tensao == 24) ? 2 : 1;
@@ -376,13 +376,19 @@
             }
         }
 
-        // Lógica NBR 5410 para o disjuntor (Ib <= In <= Iz)
-        let disjuntorEscolhido = "Indefinido";
+        // Lógica NBR 5410 aprimorada para o disjuntor (Ib <= In <= Iz)
+        let disjuntorEscolhido = null;
         for (let d of disjuntoresPadrao) {
             if (d >= corrente && d <= capacidadeCaboIz) {
                 disjuntorEscolhido = d + "A";
                 break;
             }
+        }
+
+        // Caso a corrente ultrapasse os limites padrão de forma restrita, pega o primeiro disjuntor maior ou igual a Ib
+        if (!disjuntorEscolhido) {
+            let fallback = disjuntoresPadrao.find(d => d >= corrente);
+            disjuntorEscolhido = fallback ? (fallback + "A") : "150A+";
         }
 
         return { cabo: caboEscolhido, disjuntor: disjuntorEscolhido };
@@ -438,7 +444,7 @@
                 <td>${eq.tensao} V</td>
                 <td><span style="color: var(--accent); font-weight: bold;">${eq.corrente.toFixed(2)} A</span></td>
                 <td>${eq.distancia} m</td>
-                <td><span style="color: #60a5fa; font-weight: bold;">${eq.caboRecomendado}</span></td>
+                <td><span style="color: #60a5fa; font-weight: bold;">${eq.caloRecomendado || eq.caboRecomendado}</span></td>
                 <td><span style="color: var(--success); font-weight: bold;">${eq.disjuntorRecomendado}</span></td>
                 <td><button class="btn-remover" onclick="removerEquipamento(${index})">Excluir</button></td>
             `;
